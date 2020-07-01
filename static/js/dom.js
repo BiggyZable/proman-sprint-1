@@ -1,5 +1,5 @@
 // It uses data_handler.js to visualize elements
-import { dataHandler } from "./data_handler.js";
+import {dataHandler} from "./data_handler.js";
 
 export let dom = {
     init: function () {
@@ -8,7 +8,7 @@ export let dom = {
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
-        dataHandler.getBoards(function(boards){
+        dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
             dom.buttonHandler();
         });
@@ -19,7 +19,7 @@ export let dom = {
 
         let boardList = '';
 
-        for(let board of boards){
+        for (let board of boards) {
             boardList += `
                 <li>${board.title}</li>
             `;
@@ -55,13 +55,25 @@ export let dom = {
             })
         })
         let newboardBtn = document.querySelector('#new-board-btn');
-        newboardBtn.addEventListener('click', function() {
+        newboardBtn.addEventListener('click', function () {
             newBoardDiv.classList.add('visible');
         })
-        let boardTitleItems = document.getElementsByTagName('li');
+        let boardTitleItems = document.querySelectorAll('li');
         for (let boardTitleItem of boardTitleItems) {
-            boardTitleItem.addEventListener('click', function() {
-                console.log('működik')
+            boardTitleItem.addEventListener('dblclick', function () {
+                let old_board_title = boardTitleItem.innerHTML
+                boardTitleItem.innerHTML = `<input type="text" value="${old_board_title}" data-oldtitle="${old_board_title}">
+                                            <button type="button" class="btn btn-primary save-boardname-btn">Save</button>`
+                let renameBoardBtns = document.querySelectorAll('.save-boardname-btn')
+                for (let renameBoardBtn of renameBoardBtns) {
+                    renameBoardBtn.addEventListener('click', () => {
+                        let new_board_title = document.querySelector(`[data-oldtitle='${old_board_title}']`).value;
+                        dataHandler.renameBoard(old_board_title, new_board_title, function (response) {
+                            console.log(response);
+                            dom.loadBoards();
+                        })
+                    })
+                }
             })
         }
     }

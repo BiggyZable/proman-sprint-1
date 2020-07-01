@@ -43,6 +43,16 @@ def add_board():
         return f'ez itt a {board_title}'
 
 
+@app.route("/rename-board", methods=["POST"])
+@json_response
+def rename_board():
+    if request.method == "POST":
+        old_board_title = request.get_json()['old_board_title']
+        new_board_title = request.get_json()['new_board_title']
+        data_handler.rename_board(old_board_title, new_board_title)
+        return f'ez itt az uj {new_board_title} a {old_board_title} helyett'
+
+
 
 def main():
     app.run(debug=True)
