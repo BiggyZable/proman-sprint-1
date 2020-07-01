@@ -15,6 +15,7 @@ export let dom = {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
 
+
         let boardList = '';
 
         for(let board of boards){
@@ -40,4 +41,7 @@ export let dom = {
         // it adds necessary event listeners also
     },
     // here comes more features
+
+
 };
+
