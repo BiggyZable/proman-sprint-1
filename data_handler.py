@@ -37,3 +37,12 @@ def get_cards_for_board(board_id):
             card['status_id'] = get_card_status(card['status_id'])  # Set textual status for the card
             matching_cards.append(card)
     return matching_cards
+
+
+@connection.connection_handler
+def add_board(cursor: RealDictCursor, board_title: str) -> list:
+    query = f"""
+        INSERT INTO boards(title)
+        VALUES ('{board_title}')
+        """
+    cursor.execute(query)
