@@ -17,6 +17,7 @@ export let dom = {
 
         let boardList = '';
 
+        console.log(boards);
         for(let board of boards){
             boardList += `
                 <li>${board.title}</li>

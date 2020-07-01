@@ -20,6 +20,7 @@ def get_boards():
     """
     All the boards
     """
+    print('kaki')
     return data_handler.get_boards()
 
 
