@@ -46,3 +46,13 @@ def add_board(cursor: RealDictCursor, board_title: str) -> list:
         VALUES ('{board_title}')
         """
     cursor.execute(query)
+
+
+@connection.connection_handler
+def rename_board(cursor: RealDictCursor, old_board_title: str, new_board_title: str) -> list:
+    query = f"""
+        UPDATE boards
+        SET title = '{new_board_title}'
+        WHERE title = '{old_board_title}'
+        """
+    cursor.execute(query)

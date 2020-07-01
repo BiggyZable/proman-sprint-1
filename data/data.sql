@@ -5,8 +5,7 @@ DROP TABLE IF EXISTS statuses CASCADE;
 CREATE TABLE boards
 (
     id    SERIAL PRIMARY KEY,
-    title VARCHAR(30)
-
+    title VARCHAR(30) NOT NULL UNIQUE
 );
 
 CREATE TABLE statuses
