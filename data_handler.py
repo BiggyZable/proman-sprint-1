@@ -24,6 +24,7 @@ def get_boards(cursor: RealDictCursor) -> list:
     query = """
         SELECT *
         FROM boards
+        ORDER BY id ASC
         """
     cursor.execute(query)
     return cursor.fetchall()
