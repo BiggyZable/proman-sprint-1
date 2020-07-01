@@ -23,5 +23,13 @@ CREATE TABLE cards
     "order"   INTEGER NOT NULL
 );
 
+INSERT INTO statuses(title)
+VALUES ('new'),
+       ('in_progress'),
+       ('testing'),
+       ('done');
 
+INSERT INTO boards(title)
+VALUES ('Board 1'),
+       ('Board 2');
 

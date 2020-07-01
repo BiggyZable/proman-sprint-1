@@ -10,6 +10,7 @@ export let dom = {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function(boards){
             dom.showBoards(boards);
+            dom.buttonHandler();
         });
     },
     showBoards: function (boards) {
@@ -57,6 +58,12 @@ export let dom = {
         newboardBtn.addEventListener('click', function() {
             newBoardDiv.classList.add('visible');
         })
+        let boardTitleItems = document.getElementsByTagName('li');
+        for (let boardTitleItem of boardTitleItems) {
+            boardTitleItem.addEventListener('click', function() {
+                console.log('működik')
+            })
+        }
     }
     // here comes more features
 };
