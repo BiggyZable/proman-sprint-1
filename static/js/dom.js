@@ -3,6 +3,7 @@ import { dataHandler } from "./data_handler.js";
 
 export let dom = {
     init: function () {
+        this.buttonHandler();
         // This function should run once, when the page is loaded.
     },
     loadBoards: function () {
@@ -17,7 +18,6 @@ export let dom = {
 
         let boardList = '';
 
-        console.log(boards);
         for(let board of boards){
             boardList += `
                 <li>${board.title}</li>
@@ -31,7 +31,8 @@ export let dom = {
         `;
 
         let boardsContainer = document.querySelector('#boards');
-        boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+        //boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+        boardsContainer.innerHTML = outerHtml;
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
@@ -40,5 +41,22 @@ export let dom = {
         // shows the cards of a board
         // it adds necessary event listeners also
     },
+    buttonHandler: function () {
+        let savenewBoardBtn = document.querySelector('#save-newboard-btn');
+        let newBoardDiv = document.querySelector('.new-board-input');
+        savenewBoardBtn.addEventListener('click', function () {
+            let boardTitle = document.querySelector('#new-board-title').value;
+            dataHandler.createNewBoard(boardTitle, function (response) {
+                dom.loadBoards();
+                console.log(response);
+                newBoardDiv.classList.remove('visible')
+
+            })
+        })
+        let newboardBtn = document.querySelector('#new-board-btn');
+        newboardBtn.addEventListener('click', function() {
+            newBoardDiv.classList.add('visible');
+        })
+    }
     // here comes more features
 };

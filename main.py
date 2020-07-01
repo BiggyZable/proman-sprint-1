@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from util import json_response
 
 import data_handler
@@ -20,7 +20,6 @@ def get_boards():
     """
     All the boards
     """
-    print('kaki')
     return data_handler.get_boards()
 
 
@@ -32,6 +31,17 @@ def get_cards_for_board(board_id: int):
     :param board_id: id of the parent board
     """
     return data_handler.get_cards_for_board(board_id)
+
+
+@app.route("/add-board", methods=["POST"])
+@json_response
+def add_board():
+    if request.method == "POST":
+        board_title = request.get_json()
+        print(board_title)
+        data_handler.add_board(board_title)
+        return f'ez itt a {board_title}'
+
 
 
 def main():
