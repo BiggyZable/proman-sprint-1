@@ -29,27 +29,19 @@ export let dom = {
                     <div class="board-columns hidden" data-boardtitle="${board.title}">
                         <div class="board-column">
                             <div class="board-column-title">New</div>
-                            <div class="board-column-content">
-                                
-                            </div>
+                            <div class="board-column-content"></div>
                         </div>
                         <div class="board-column">
                             <div class="board-column-title">In progress</div>
-                            <div class="board-column-content">
-                                
-                            </div>
+                            <div class="board-column-content"></div>
                         </div>
                         <div class="board-column">
                             <div class="board-column-title">Testing</div>
-                            <div class="board-column-content">
-                                
-                            </div>
+                            <div class="board-column-content"></div>
                         </div>
                         <div class="board-column">
                             <div class="board-column-title">Done</div>
-                            <div class="board-column-content">
-                                
-                            </div>
+                            <div class="board-column-content"></div>
                         </div>
                     </div>
                 </section>
