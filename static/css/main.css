@@ -128,10 +128,6 @@ section.board{
     padding-right: 16px;
 }
 
-.new-board-input {
-    visibility: hidden;
-}
-
 .hidden {
     display: none;
 }

@@ -55,7 +55,6 @@ export let dom = {
         `;
 
         let boardsContainer = document.querySelector('#boards');
-        //boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
         boardsContainer.innerHTML = outerHtml;
     },
     loadCards: function (boardId) {
@@ -73,13 +72,13 @@ export let dom = {
             dataHandler.createNewBoard(boardTitle, function (response) {
                 dom.loadBoards();
                 console.log(response);
-                newBoardDiv.classList.remove('visible')
+                newBoardDiv.classList.add('hidden');
 
             })
         })
         let newboardBtn = document.querySelector('#new-board-btn');
         newboardBtn.addEventListener('click', function () {
-            newBoardDiv.classList.add('visible');
+            newBoardDiv.classList.remove('hidden');
         })
         let boardTitleItems = document.querySelectorAll('.board-title');
         for (let boardTitleItem of boardTitleItems) {
