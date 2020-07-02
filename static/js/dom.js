@@ -39,7 +39,14 @@ export let dom = {
             boardList += `
                 <section class="board">
                     <div class="board-header"><span class="board-title">${board.title}</span>
-                        <button class="board-add">Add Card</button>
+                        <span class="board-specific hidden" data-boardtitle="${board.title}">
+                            <button class="card-add">Add Card</button>
+                            <button class="column-add" data-boardtitle="${board.title}">Add Column</button>
+                            <span class="column-add-form hidden" data-boardtitle="${board.title}">
+                                <input type="text" class="column-add-input" data-boardtitle="${board.title}" value="">
+                                <button class="save-status-btn" data-boardtitle="${board.title}">Save</button>
+                            </span>
+                        </span>
                         <button class="board-toggle" data-boardtitle="${board.title}"><i class="fas fa-chevron-down"></i></button>
                     </div>
                     <div class="board-columns hidden" data-boardtitle="${board.title}">
@@ -105,15 +112,38 @@ export let dom = {
                 let boardTitle = dropDownBtn.dataset.boardtitle;
                 let boardColumn = document.querySelector(`div.board-columns[data-boardtitle="${boardTitle}"]`);
                 boardColumn.classList.toggle('hidden');
+                let boardSpecificItems = document.querySelectorAll(`.board-specific[data-boardtitle="${boardTitle}"]`);
+                for (let boardSpecificItem of boardSpecificItems) {
+                    boardSpecificItem.classList.toggle('hidden');
+                }
                 if (dropDownBtn.firstElementChild.classList.contains('fa-chevron-down')) {
                     dropDownBtn.firstElementChild.classList.remove('fa-chevron-down');
                     dropDownBtn.firstElementChild.classList.add('fa-chevron-up');
-
                 } else {
                     dropDownBtn.firstElementChild.classList.remove('fa-chevron-up');
                     dropDownBtn.firstElementChild.classList.add('fa-chevron-down');
-
                 }
+            })
+        }
+        let addNewColumnBtns = document.querySelectorAll('.column-add')
+        for (let addNewColumnBtn of addNewColumnBtns) {
+            addNewColumnBtn.addEventListener('click', function () {
+                let boardTitle = addNewColumnBtn.dataset.boardtitle;
+                let newColumnInputs = document.querySelectorAll(`.column-add-form[data-boardtitle="${boardTitle}"]`);
+                for (let newColumnInput of newColumnInputs) {
+                    newColumnInput.classList.toggle('hidden')
+                }
+            })
+        }
+        let saveNewStatusBtns = document.querySelectorAll('.save-status-btn');
+        for (let saveNewStatusBtn of saveNewStatusBtns) {
+            let boardTitle = saveNewStatusBtn.dataset.boardtitle
+            saveNewStatusBtn.addEventListener('click', function () {
+                let newStatusName = document.querySelector(`.column-add-input[data-boardtitle="${boardTitle}"]`).value
+                dataHandler.addStatus(newStatusName, function (response) {
+                    console.log(response);
+                    dom.loadBoards();
+                })
             })
         }
     }

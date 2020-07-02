@@ -78,6 +78,11 @@ export let dataHandler = {
         this._api_post('/rename-board', titleDict, (response) => {
             callback(response)
         })
+    },
+    addStatus: function (status_name, callback) {
+        this._api_post('/add-status', status_name, (response) => {
+            callback(response)
+        })
     }
     // here comes more features
 };

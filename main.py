@@ -60,6 +60,15 @@ def get_statuses():
         return data_handler.get_statuses()
 
 
+@app.route("/add-status", methods=["POST"])
+@json_response
+def add_status():
+    if request.method == "POST":
+        status_name = request.get_json()
+        data_handler.add_status(status_name)
+        return f'A new status was added: {status_name}'
+
+
 def main():
     app.run(debug=True)
 
