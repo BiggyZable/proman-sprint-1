@@ -12,6 +12,9 @@ export let dom = {
             dom.showBoards(boards);
             dom.buttonHandler();
         });
+        dom.loadStatuses()
+    },
+    loadStatuses: function () {
         dataHandler.getStatuses( function (statuses) {
             dom.showColumns(statuses);
         })
@@ -142,7 +145,7 @@ export let dom = {
                 let newStatusName = document.querySelector(`.column-add-input[data-boardtitle="${boardTitle}"]`).value
                 dataHandler.addStatus(newStatusName, function (response) {
                     console.log(response);
-                    dom.loadBoards();
+                    dom.loadStatuses();
                 })
             })
         }
