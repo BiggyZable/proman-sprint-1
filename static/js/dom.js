@@ -21,14 +21,18 @@ export let dom = {
 
         for (let board of boards) {
             boardList += `
-                <li>${board.title}</li>
+                <section class="board">
+                    <div class="board-header"><span class="board-title">${board.title}</span>
+                    <button class="board-add">Add Card</button>
+                    <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                </section>
             `;
         }
 
         const outerHtml = `
-            <ul class="board-container">
+            <div class="board-container">
                 ${boardList}
-            </ul>
+            </div>
         `;
 
         let boardsContainer = document.querySelector('#boards');
@@ -58,7 +62,7 @@ export let dom = {
         newboardBtn.addEventListener('click', function () {
             newBoardDiv.classList.add('visible');
         })
-        let boardTitleItems = document.querySelectorAll('li');
+        let boardTitleItems = document.querySelectorAll('.board-title');
         for (let boardTitleItem of boardTitleItems) {
             boardTitleItem.addEventListener('dblclick', function () {
                 let old_board_title = boardTitleItem.innerHTML
