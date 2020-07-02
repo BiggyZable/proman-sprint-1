@@ -23,8 +23,12 @@ export let dom = {
             boardList += `
                 <section class="board">
                     <div class="board-header"><span class="board-title">${board.title}</span>
-                    <button class="board-add">Add Card</button>
-                    <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                        <button class="board-add">Add Card</button>
+                        <button class="board-toggle" data-boardtitle="${board.title}"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <div class="board-columns hidden" data-boardtitle="${board.title}">
+                        <p>Valami</p>
+                    </div>
                 </section>
             `;
         }
@@ -77,6 +81,23 @@ export let dom = {
                             dom.loadBoards();
                         })
                     })
+                }
+            })
+        }
+        let dropDownBtns = document.querySelectorAll('.board-toggle')
+        for (let dropDownBtn of dropDownBtns) {
+            dropDownBtn.addEventListener('click', function () {
+                let boardTitle = dropDownBtn.dataset.boardtitle;
+                let boardColumn = document.querySelector(`div.board-columns[data-boardtitle="${boardTitle}"]`);
+                boardColumn.classList.toggle('hidden');
+                if (dropDownBtn.firstElementChild.classList.contains('fa-chevron-down')) {
+                    dropDownBtn.firstElementChild.classList.remove('fa-chevron-down');
+                    dropDownBtn.firstElementChild.classList.add('fa-chevron-up');
+
+                } else {
+                    dropDownBtn.firstElementChild.classList.remove('fa-chevron-up');
+                    dropDownBtn.firstElementChild.classList.add('fa-chevron-down');
+
                 }
             })
         }

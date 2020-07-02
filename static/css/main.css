@@ -132,6 +132,6 @@ section.board{
     visibility: hidden;
 }
 
-.visible {
-    visibility: visible;
+.hidden {
+    display: none;
 }
