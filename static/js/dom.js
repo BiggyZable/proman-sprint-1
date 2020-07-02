@@ -12,6 +12,22 @@ export let dom = {
             dom.showBoards(boards);
             dom.buttonHandler();
         });
+        dataHandler.getStatuses( function (statuses) {
+            dom.showColumns(statuses);
+        })
+    },
+    showColumns: function (statuses) {
+        let boardColumns = document.querySelectorAll('.board-columns');
+        for (let boardColumn of boardColumns) {
+            let boardColumnHTML = ''
+            for (let status of statuses) {
+                boardColumnHTML += `<div class="board-column">
+                                        <div class="board-column-title">${status.title}</div>
+                                        <div class="board-column-content"></div>
+                                    </div>`
+            }
+            boardColumn.innerHTML = boardColumnHTML;
+        }
     },
     showBoards: function (boards) {
         // shows boards appending them to #boards div
@@ -27,22 +43,7 @@ export let dom = {
                         <button class="board-toggle" data-boardtitle="${board.title}"><i class="fas fa-chevron-down"></i></button>
                     </div>
                     <div class="board-columns hidden" data-boardtitle="${board.title}">
-                        <div class="board-column">
-                            <div class="board-column-title">New</div>
-                            <div class="board-column-content"></div>
-                        </div>
-                        <div class="board-column">
-                            <div class="board-column-title">In progress</div>
-                            <div class="board-column-content"></div>
-                        </div>
-                        <div class="board-column">
-                            <div class="board-column-title">Testing</div>
-                            <div class="board-column-content"></div>
-                        </div>
-                        <div class="board-column">
-                            <div class="board-column-title">Done</div>
-                            <div class="board-column-content"></div>
-                        </div>
+                        
                     </div>
                 </section>
             `;

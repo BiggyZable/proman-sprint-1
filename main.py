@@ -53,6 +53,12 @@ def rename_board():
         return f'ez itt az uj {new_board_title} a {old_board_title} helyett'
 
 
+@app.route("/get-statuses", methods=["GET"])
+@json_response
+def get_statuses():
+    if request.method == "GET":
+        return data_handler.get_statuses()
+
 
 def main():
     app.run(debug=True)

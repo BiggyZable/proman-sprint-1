@@ -24,10 +24,10 @@ CREATE TABLE cards
 );
 
 INSERT INTO statuses(title)
-VALUES ('new'),
-       ('in_progress'),
-       ('testing'),
-       ('done');
+VALUES ('New'),
+       ('In progress'),
+       ('Testing'),
+       ('Done');
 
 INSERT INTO boards(title)
 VALUES ('Board 1'),

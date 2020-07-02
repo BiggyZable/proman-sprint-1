@@ -12,13 +12,6 @@ def get_card_status(status_id):
     return next((status['title'] for status in statuses if status['id'] == str(status_id)), 'Unknown')
 
 
-# def get_boards():
-#     """
-#     Gather all boards
-#     :return:
-#     """
-#     return persistence.get_boards(force=True)
-
 @connection.connection_handler
 def get_boards(cursor: RealDictCursor) -> list:
     query = """
@@ -55,5 +48,25 @@ def rename_board(cursor: RealDictCursor, old_board_title: str, new_board_title: 
         UPDATE boards
         SET title = '{new_board_title}'
         WHERE title = '{old_board_title}'
+        """
+    cursor.execute(query)
+
+
+@connection.connection_handler
+def get_statuses(cursor: RealDictCursor) -> list:
+    query = """
+        SELECT *
+        FROM statuses
+        ORDER BY id ASC
+        """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def add_status(cursor: RealDictCursor, status_name: str) -> list:
+    query = f"""
+        INSERT INTO statuses(title)
+        VALUES ('{status_name}')
         """
     cursor.execute(query)
