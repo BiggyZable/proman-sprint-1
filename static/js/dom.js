@@ -84,7 +84,6 @@ export let dom = {
                 dom.loadBoards();
                 console.log(response);
                 newBoardDiv.classList.add('hidden');
-
             })
         })
         let newboardBtn = document.querySelector('#new-board-btn');

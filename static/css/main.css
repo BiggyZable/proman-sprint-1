@@ -32,7 +32,7 @@ button{
     padding: 4px 10px;
 }
 
-.board-container{
+.board-container {
     max-width: 960px;
     margin: 0 auto;
 }
@@ -130,4 +130,9 @@ section.board{
 
 .hidden {
     display: none;
+}
+
+.new-board-container {
+    max-width: 960px;
+    margin: 0 auto;
 }
