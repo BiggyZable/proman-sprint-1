@@ -27,7 +27,30 @@ export let dom = {
                         <button class="board-toggle" data-boardtitle="${board.title}"><i class="fas fa-chevron-down"></i></button>
                     </div>
                     <div class="board-columns hidden" data-boardtitle="${board.title}">
-                        <p>Valami</p>
+                        <div class="board-column">
+                            <div class="board-column-title">New</div>
+                            <div class="board-column-content">
+                                
+                            </div>
+                        </div>
+                        <div class="board-column">
+                            <div class="board-column-title">In progress</div>
+                            <div class="board-column-content">
+                                
+                            </div>
+                        </div>
+                        <div class="board-column">
+                            <div class="board-column-title">Testing</div>
+                            <div class="board-column-content">
+                                
+                            </div>
+                        </div>
+                        <div class="board-column">
+                            <div class="board-column-title">Done</div>
+                            <div class="board-column-content">
+                                
+                            </div>
+                        </div>
                     </div>
                 </section>
             `;
