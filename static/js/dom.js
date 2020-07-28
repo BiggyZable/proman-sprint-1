@@ -17,6 +17,7 @@ export let dom = {
     loadStatuses: function () {
         dataHandler.getStatuses( function (statuses) {
             dom.showColumns(statuses);
+            dom.buttonHandlerColumns();
         })
     },
     showColumns: function (statuses) {
@@ -27,9 +28,9 @@ export let dom = {
             for (let status of statuses) {
                 if (status.board_name === boardTitle) {
                     boardColumnHTML += `<div class="board-column">
-                                        <div class="board-column-title">${status.status_name}</div>
-                                        <div class="board-column-content"></div>
-                                    </div>`
+                                            <div class="board-column-title" data-boardtitle="${boardTitle}">${status.status_name}</div>
+                                            <div class="board-column-content"></div>
+                                        </div>`
                 }
             }
             boardColumn.innerHTML = boardColumnHTML;
@@ -149,6 +150,21 @@ export let dom = {
                 dataHandler.addStatus(newStatusName, boardTitle, function (response) {
                     console.log(response);
                     dom.loadStatuses();
+                })
+            })
+        }
+    },
+    buttonHandlerColumns: function () {
+        let columnTitles = document.querySelectorAll('.board-column-title')
+        for (let columnTitle of columnTitles) {
+            columnTitle.addEventListener('dblclick', function () {
+                let oldColumnTitle = columnTitle.innerHTML
+                columnTitle.innerHTML = `<input type="text" value="${oldColumnTitle}" data-oldcolumntitle="${oldColumnTitle}">`
+                let inputField = document.querySelector(`[data-oldcolumntitle="${oldColumnTitle}"]`)
+                inputField.addEventListener('keypress', function (event) {
+                    if (event.keyCode === 13) {
+                        console.log('kaki')
+                    }
                 })
             })
         }
