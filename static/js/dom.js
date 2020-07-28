@@ -87,6 +87,7 @@ export let dom = {
             let boardTitle = document.querySelector('#new-board-title').value;
             dataHandler.createNewBoard(boardTitle, function (response) {
                 dom.loadBoards();
+                dom.init()
                 console.log(response);
                 newBoardDiv.classList.add('hidden');
             })
