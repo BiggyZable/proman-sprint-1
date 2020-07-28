@@ -24,10 +24,8 @@ export let dom = {
         for (let boardColumn of boardColumns) {
             let boardColumnHTML = ''
             let boardTitle = boardColumn.dataset.boardtitle;
-            console.log(boardTitle)
             for (let status of statuses) {
                 if (status.board_name === boardTitle) {
-                    console.log(status.status_name)
                     boardColumnHTML += `<div class="board-column">
                                         <div class="board-column-title">${status.status_name}</div>
                                         <div class="board-column-content"></div>
