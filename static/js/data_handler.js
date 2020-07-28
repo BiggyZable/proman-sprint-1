@@ -79,8 +79,12 @@ export let dataHandler = {
             callback(response)
         })
     },
-    addStatus: function (status_name, callback) {
-        this._api_post('/add-status', status_name, (response) => {
+    addStatus: function (status_name, board_name, callback) {
+        let statusNameBoardName = {
+            status_name: status_name,
+            board_name: board_name
+        }
+        this._api_post('/add-status', statusNameBoardName, (response) => {
             callback(response)
         })
     }

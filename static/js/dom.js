@@ -23,11 +23,16 @@ export let dom = {
         let boardColumns = document.querySelectorAll('.board-columns');
         for (let boardColumn of boardColumns) {
             let boardColumnHTML = ''
+            let boardTitle = boardColumn.dataset.boardtitle;
+            console.log(boardTitle)
             for (let status of statuses) {
-                boardColumnHTML += `<div class="board-column">
-                                        <div class="board-column-title">${status.title}</div>
+                if (status.board_name === boardTitle) {
+                    console.log(status.status_name)
+                    boardColumnHTML += `<div class="board-column">
+                                        <div class="board-column-title">${status.status_name}</div>
                                         <div class="board-column-content"></div>
                                     </div>`
+                }
             }
             boardColumn.innerHTML = boardColumnHTML;
         }
@@ -142,7 +147,7 @@ export let dom = {
             let boardTitle = saveNewStatusBtn.dataset.boardtitle
             saveNewStatusBtn.addEventListener('click', function () {
                 let newStatusName = document.querySelector(`.column-add-input[data-boardtitle="${boardTitle}"]`).value
-                dataHandler.addStatus(newStatusName, function (response) {
+                dataHandler.addStatus(newStatusName, boardTitle, function (response) {
                     console.log(response);
                     dom.loadStatuses();
                 })

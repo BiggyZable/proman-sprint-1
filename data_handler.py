@@ -37,7 +37,12 @@ def get_cards_for_board(board_id):
 def add_board(cursor: RealDictCursor, board_title: str) -> list:
     query = f"""
         INSERT INTO boards(title)
-        VALUES ('{board_title}')
+        VALUES ('{board_title}');
+        INSERT INTO status_link(status_name, board_name)
+        VALUES  ('New', '{board_title}'),
+                ('In progress', '{board_title}'),
+                ('Testing', '{board_title}'),
+                ('Done', '{board_title}');
         """
     cursor.execute(query)
 
@@ -56,7 +61,7 @@ def rename_board(cursor: RealDictCursor, old_board_title: str, new_board_title: 
 def get_statuses(cursor: RealDictCursor) -> list:
     query = """
         SELECT *
-        FROM statuses
+        FROM status_link
         ORDER BY id ASC
         """
     cursor.execute(query)
@@ -69,4 +74,12 @@ def add_status(cursor: RealDictCursor, status_name: str) -> list:
         INSERT INTO statuses(title)
         VALUES ('{status_name}')
         """
+    cursor.execute(query)
+
+@connection.connection_handler
+def add_status_link(cursor: RealDictCursor, status_name: str, board_name: str) -> list:
+    query = f"""
+            INSERT INTO status_link(status_name, board_name)
+            VALUES ('{status_name}', '{board_name}')
+            """
     cursor.execute(query)

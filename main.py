@@ -64,9 +64,13 @@ def get_statuses():
 @json_response
 def add_status():
     if request.method == "POST":
-        status_name = request.get_json()
+        status_board_dict = request.get_json()
+        status_name = status_board_dict['status_name']
+        board_name = status_board_dict['board_name']
+        print(board_name)
         data_handler.add_status(status_name)
-        return f'A new status was added: {status_name}'
+        data_handler.add_status_link(status_name, board_name)
+        return f'A new status was added: {status_name} to the board {board_name}'
 
 
 def main():
