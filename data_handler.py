@@ -2,6 +2,7 @@ import persistence
 import connection
 from psycopg2.extras import RealDictCursor
 
+
 def get_card_status(status_id):
     """
     Find the first status matching the given id
@@ -21,6 +22,7 @@ def get_boards(cursor: RealDictCursor) -> list:
         """
     cursor.execute(query)
     return cursor.fetchall()
+
 
 def get_cards_for_board(board_id):
     persistence.clear_cache()
@@ -76,6 +78,7 @@ def add_status(cursor: RealDictCursor, status_name: str) -> list:
         """
     cursor.execute(query)
 
+
 @connection.connection_handler
 def add_status_link(cursor: RealDictCursor, status_name: str, board_name: str) -> list:
     query = f"""
@@ -91,5 +94,14 @@ def rename_column(cursor: RealDictCursor, old_column_title: str, new_column_titl
             UPDATE status_link
             SET status_name = '{new_column_title}'
             WHERE status_name = '{old_column_title}' AND board_name = '{board_title}'
+            """
+    cursor.execute(query)
+
+
+@connection.connection_handler
+def add_new_card(cursor: RealDictCursor, card_title: str, board_id: int) -> list:
+    query = f"""
+        INSERT INTO cards(board_id, title, status_id, "order")
+        VALUES ('{board_id}', '{card_title}', 1, 1)
             """
     cursor.execute(query)

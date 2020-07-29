@@ -47,7 +47,7 @@ export let dom = {
                 <section class="board">
                     <div class="board-header"><span class="board-title">${board.title}</span>
                         <span class="board-specific hidden" data-boardtitle="${board.title}">
-                            <button class="card-add" data-boardtitle="${board.title}">Add Card</button>
+                            <button class="card-add" data-boardid="${board.id}" data-boardtitle="${board.title}">Add Card</button>
                             <span class="card-add-form hidden" data-boardtitle="${board.title}">
                                 <input type="text" class="card-add-input" data-boardtitle="${board.title}" value="">
                                 <button class="card-save-btn" data-boardtitle="${board.title}">Save</button>
@@ -78,6 +78,7 @@ export let dom = {
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
+
     },
     showCards: function (cards) {
         // shows the cards of a board
@@ -163,12 +164,28 @@ export let dom = {
         let addCardBtns = document.querySelectorAll('.card-add')
         for (let button of addCardBtns) {
             let boardTitle = button.dataset.boardtitle
+            let boardId = button.dataset.boardid
             let cardInput = document.querySelector(`.card-add-form[data-boardtitle="${boardTitle}"]`)
             button.addEventListener('click' , function(){
                 cardInput.classList.toggle('hidden')
             })
+
+            cardInput.addEventListener('keyup', function(e) {
+
+                if(e.keyCode === 13) {
+                    cardInput.classList.toggle('hidden')
+                    let cardTitle = document.querySelector(`.card-add-input[data-boardtitle="${boardTitle}"]`).value
+                    dataHandler.createNewCard(cardTitle, boardId, function(response){
+                        console.log(response);
+                    })
+                }
+            })
+
         }
+
     },
+
+
     buttonHandlerColumns: function () {
         let columnTitles = document.querySelectorAll('.board-column-title')
         for (let columnTitle of columnTitles) {

@@ -83,6 +83,18 @@ def rename_column():
         return f'The name of the column {old_column_title} from board: {board_title} was renamed to {new_column_title}'
 
 
+@app.route('/add-card', methods=['POST'])
+@json_response
+def add_new_card():
+    if request.method == "POST":
+        card_dict = request.get_json()
+        card_title = card_dict['card_title']
+        board_id = card_dict['board_id']
+        data_handler.add_new_card(card_title, board_id)
+        return f'Gyászeci {card_title} {board_id} vagy'
+
+
+
 def main():
     app.run(debug=True)
 

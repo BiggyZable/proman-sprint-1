@@ -67,8 +67,11 @@ export let dataHandler = {
             callback(response)
         })
     },
-    createNewCard: function (cardTitle, boardId, statusId, callback) {
-        // creates new card, saves it and calls the callback function with its data
+    createNewCard: function (cardTitle, boardId, callback) {
+        let cardDict = {card_title: cardTitle, board_id: boardId}
+        this._api_post('/add-card', cardDict, (response) => {
+            callback(response)
+        })
     },
     renameBoard: function (old_board_title, new_board_title, callback) {
         let titleDict = {
@@ -98,5 +101,6 @@ export let dataHandler = {
             callback(response)
         })
     }
+
     // here comes more features
 };
