@@ -157,13 +157,19 @@ export let dom = {
     buttonHandlerColumns: function () {
         let columnTitles = document.querySelectorAll('.board-column-title')
         for (let columnTitle of columnTitles) {
+            let boardTitle = columnTitle.dataset.boardtitle
             columnTitle.addEventListener('dblclick', function () {
                 let oldColumnTitle = columnTitle.innerHTML
                 columnTitle.innerHTML = `<input type="text" value="${oldColumnTitle}" data-oldcolumntitle="${oldColumnTitle}">`
                 let inputField = document.querySelector(`[data-oldcolumntitle="${oldColumnTitle}"]`)
                 inputField.addEventListener('keypress', function (event) {
                     if (event.keyCode === 13) {
-                        console.log('kaki')
+                        let newColumnTitle = inputField.value
+                        // columnTitle.innerHTML = newColumnTitle
+                        dataHandler.renameColumn(oldColumnTitle, newColumnTitle, boardTitle, function (response) {
+                            console.log(response);
+                            dom.loadStatuses();
+                        })
                     }
                 })
             })

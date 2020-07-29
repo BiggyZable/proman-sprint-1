@@ -87,6 +87,16 @@ export let dataHandler = {
         this._api_post('/add-status', statusNameBoardName, (response) => {
             callback(response)
         })
+    },
+    renameColumn: function (oldColumnTitle, newColumnTitle, boardTitle, callback) {
+        let titleDict = {
+            old_column_title: oldColumnTitle,
+            new_column_title: newColumnTitle,
+            board_title: boardTitle
+        }
+        this._api_post('/rename-column', titleDict, (response) => {
+            callback(response)
+        })
     }
     // here comes more features
 };

@@ -83,3 +83,13 @@ def add_status_link(cursor: RealDictCursor, status_name: str, board_name: str) -
             VALUES ('{status_name}', '{board_name}')
             """
     cursor.execute(query)
+
+
+@connection.connection_handler
+def rename_column(cursor: RealDictCursor, old_column_title: str, new_column_title: str, board_title: str) -> list:
+    query = f"""
+            UPDATE status_link
+            SET status_name = '{new_column_title}'
+            WHERE status_name = '{old_column_title}' AND board_name = '{board_title}'
+            """
+    cursor.execute(query)

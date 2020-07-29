@@ -38,7 +38,6 @@ def get_cards_for_board(board_id: int):
 def add_board():
     if request.method == "POST":
         board_title = request.get_json()
-        print(board_title)
         data_handler.add_board(board_title)
         return f'ez itt a {board_title}'
 
@@ -67,10 +66,21 @@ def add_status():
         status_board_dict = request.get_json()
         status_name = status_board_dict['status_name']
         board_name = status_board_dict['board_name']
-        print(board_name)
         data_handler.add_status(status_name)
         data_handler.add_status_link(status_name, board_name)
         return f'A new status was added: {status_name} to the board {board_name}'
+
+
+@app.route("/rename-column", methods=["POST"])
+@json_response
+def rename_column():
+    if request.method == "POST":
+        column_title_dict = request.get_json()
+        old_column_title = column_title_dict['old_column_title']
+        new_column_title = column_title_dict['new_column_title']
+        board_title = column_title_dict['board_title']
+        data_handler.rename_column(old_column_title, new_column_title, board_title)
+        return f'The name of the column {old_column_title} from board: {board_title} was renamed to {new_column_title}'
 
 
 def main():
