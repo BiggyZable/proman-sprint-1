@@ -111,6 +111,9 @@ export let dom = {
                         })
                     })
                 }
+                document.addEventListener("click", function () {
+                    boardTitleItem.innerHTML = old_board_title
+                })
             })
         }
         let dropDownBtns = document.querySelectorAll('.board-toggle')
@@ -162,15 +165,21 @@ export let dom = {
                 let oldColumnTitle = columnTitle.innerHTML
                 columnTitle.innerHTML = `<input type="text" value="${oldColumnTitle}" data-oldcolumntitle="${oldColumnTitle}">`
                 let inputField = document.querySelector(`[data-oldcolumntitle="${oldColumnTitle}"]`)
-                inputField.addEventListener('keypress', function (event) {
+                inputField.addEventListener('keyup', function (event) {
                     if (event.keyCode === 13) {
                         let newColumnTitle = inputField.value
-                        // columnTitle.innerHTML = newColumnTitle
                         dataHandler.renameColumn(oldColumnTitle, newColumnTitle, boardTitle, function (response) {
                             console.log(response);
                             dom.loadStatuses();
                         })
                     }
+                     else if (event.keyCode === 27) {
+                         console.log('nemjo');
+                         columnTitle.innerHTML = oldColumnTitle
+                    }
+                })
+                document.addEventListener("click", function () {
+                    columnTitle.innerHTML = oldColumnTitle
                 })
             })
         }
