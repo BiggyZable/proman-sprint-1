@@ -15,7 +15,7 @@ export let dom = {
         dom.loadStatuses()
     },
     loadStatuses: function () {
-        dataHandler.getStatuses( function (statuses) {
+        dataHandler.getStatuses(function (statuses) {
             dom.showColumns(statuses);
             dom.buttonHandlerColumns();
         })
@@ -47,7 +47,11 @@ export let dom = {
                 <section class="board">
                     <div class="board-header"><span class="board-title">${board.title}</span>
                         <span class="board-specific hidden" data-boardtitle="${board.title}">
-                            <button class="card-add">Add Card</button>
+                            <button class="card-add" data-boardtitle="${board.title}">Add Card</button>
+                            <span class="card-add-form hidden" data-boardtitle="${board.title}">
+                                <input type="text" class="card-add-input" data-boardtitle="${board.title}" value="">
+                                <button class="card-save-btn" data-boardtitle="${board.title}">Save</button>
+                            </span>
                             <button class="column-add" data-boardtitle="${board.title}">Add Column</button>
                             <span class="column-add-form hidden" data-boardtitle="${board.title}">
                                 <input type="text" class="column-add-input" data-boardtitle="${board.title}" value="">
@@ -156,6 +160,14 @@ export let dom = {
                 })
             })
         }
+        let addCardBtns = document.querySelectorAll('.card-add')
+        for (let button of addCardBtns) {
+            let boardTitle = button.dataset.boardtitle
+            let cardInput = document.querySelector(`.card-add-form[data-boardtitle="${boardTitle}"]`)
+            button.addEventListener('click' , function(){
+                cardInput.classList.toggle('hidden')
+            })
+        }
     },
     buttonHandlerColumns: function () {
         let columnTitles = document.querySelectorAll('.board-column-title')
@@ -172,10 +184,8 @@ export let dom = {
                             console.log(response);
                             dom.loadStatuses();
                         })
-                    }
-                     else if (event.keyCode === 27) {
-                         console.log('nemjo');
-                         columnTitle.innerHTML = oldColumnTitle
+                    } else if (event.keyCode === 27) {
+                        columnTitle.innerHTML = oldColumnTitle
                     }
                 })
                 document.addEventListener("click", function () {
