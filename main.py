@@ -90,13 +90,15 @@ def add_new_card():
         card_dict = request.get_json()
         card_title = card_dict['card_title']
         board_id = card_dict['board_id']
-        data_handler.add_new_card(card_title, board_id)
+        status_name = card_dict['status_name']
+        data_handler.add_new_card(card_title, board_id, status_name)
         return f'Added card: {card_title} to board {board_id}'
 
 @app.route('/show-cards', methods=['GET'])
 @json_response
 def show_cards():
     if request.method == "GET":
+        print(data_handler.get_cards())
         return data_handler.get_cards()
 
 

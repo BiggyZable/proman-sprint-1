@@ -99,19 +99,17 @@ def rename_column(cursor: RealDictCursor, old_column_title: str, new_column_titl
 
 
 @connection.connection_handler
-def add_new_card(cursor: RealDictCursor, card_title: str, board_id: int) -> list:
+def add_new_card(cursor: RealDictCursor, card_title: str, board_id: int, status_name: str) -> list:
     query = f"""
-        INSERT INTO cards(board_id, title, status_id, "order")
-        VALUES ('{board_id}', '{card_title}', 1, 1)
+        INSERT INTO cards(board_id, title, status_id, "order", status_name)
+        VALUES ('{board_id}', '{card_title}', 1, 1, '{status_name}')
             """
     cursor.execute(query)
 
 @connection.connection_handler
-def get_cards(cursor: RealDictCursor, board_title: str) -> list:
+def get_cards(cursor: RealDictCursor) -> list:
     query = f"""
         SELECT * FROM cards
-        INNER JOIN boards ON boards.id = cards.board_id
-        WHERE boards.title = '{board_title}'
     """
     cursor.execute(query)
     return cursor.fetchall()

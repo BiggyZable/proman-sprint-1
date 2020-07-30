@@ -55,8 +55,13 @@ export let dataHandler = {
     getStatus: function (statusId, callback) {
         // the status is retrieved and then the callback function is called with the status
     },
-    getCardsByBoardId: function (boardId, callback) {
+    getCards: function (callback) {
         // the cards are retrieved and then the callback function is called with the cards
+        this._api_get('/show-cards', (response) => {
+            this._data['cards'] = response;
+            console.log(response);
+            callback(response)
+        })
     },
     getCard: function (cardId, callback) {
         // the card is retrieved and then the callback function is called with the card
@@ -67,8 +72,8 @@ export let dataHandler = {
             callback(response)
         })
     },
-    createNewCard: function (cardTitle, boardId, callback) {
-        let cardDict = {card_title: cardTitle, board_id: boardId}
+    createNewCard: function (cardTitle, boardId, statusName, callback) {
+        let cardDict = {card_title: cardTitle, board_id: boardId, status_name: statusName}
         this._api_post('/add-card', cardDict, (response) => {
             callback(response)
         })

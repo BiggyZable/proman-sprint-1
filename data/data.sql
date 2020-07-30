@@ -29,7 +29,8 @@ CREATE TABLE cards
     board_id  INTEGER REFERENCES boards(id) ON DELETE CASCADE  NOT NULL,
     title     VARCHAR(255) NOT NULL,
     status_id INTEGER REFERENCES status_link(id) ON DELETE CASCADE NOT NULL,
-    "order"   INTEGER NOT NULL
+    "order"   INTEGER NOT NULL,
+    status_name VARCHAR(255)
 );
 
 INSERT INTO statuses(title)
