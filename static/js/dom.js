@@ -60,7 +60,7 @@ export let dom = {
                         </span>
                         <button class="board-toggle" data-boardtitle="${board.title}"><i class="fas fa-chevron-down"></i></button>
                     </div>
-                    <div class="board-columns hidden" data-boardtitle="${board.title}">
+                    <div class="board-columns hidden" data-boardtitle="${board.title}" data-boardid="${boards.id}">
                         
                     </div>
                 </section>
@@ -76,8 +76,9 @@ export let dom = {
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.innerHTML = outerHtml;
     },
-    loadCards: function (boardId) {
+    loadCards: function (boardTitle) {
         // retrieves cards and makes showCards called
+
 
     },
     showCards: function (cards) {

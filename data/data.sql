@@ -15,20 +15,21 @@ CREATE TABLE statuses
     title VARCHAR(30) NOT NULL UNIQUE
 );
 
-CREATE TABLE cards
-(
-    id        SERIAL PRIMARY KEY,
-    board_id  INTEGER REFERENCES boards(id) ON DELETE CASCADE  NOT NULL,
-    title     VARCHAR(255) NOT NULL,
-    status_id INTEGER REFERENCES statuses(id) ON DELETE CASCADE NOT NULL,
-    "order"   INTEGER NOT NULL
-);
 
 CREATE TABLE status_link
 (
     id        SERIAL PRIMARY KEY,
     status_name VARCHAR,
     board_name VARCHAR
+);
+
+CREATE TABLE cards
+(
+    id        SERIAL PRIMARY KEY,
+    board_id  INTEGER REFERENCES boards(id) ON DELETE CASCADE  NOT NULL,
+    title     VARCHAR(255) NOT NULL,
+    status_id INTEGER REFERENCES status_link(id) ON DELETE CASCADE NOT NULL,
+    "order"   INTEGER NOT NULL
 );
 
 INSERT INTO statuses(title)

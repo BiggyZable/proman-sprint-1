@@ -105,3 +105,13 @@ def add_new_card(cursor: RealDictCursor, card_title: str, board_id: int) -> list
         VALUES ('{board_id}', '{card_title}', 1, 1)
             """
     cursor.execute(query)
+
+@connection.connection_handler
+def get_cards(cursor: RealDictCursor, board_title: str) -> list:
+    query = f"""
+        SELECT * FROM cards
+        INNER JOIN boards ON boards.id = cards.board_id
+        WHERE boards.title = '{board_title}'
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
