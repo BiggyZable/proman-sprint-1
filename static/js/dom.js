@@ -226,9 +226,9 @@ export let dom = {
                         columnTitle.innerHTML = oldColumnTitle
                     }
                 })
-                document.addEventListener("click", function () {
-                    columnTitle.innerHTML = oldColumnTitle
-                })
+                // document.addEventListener("click", function () {
+                //     columnTitle.innerHTML = oldColumnTitle
+                // })
             })
         }
     }

@@ -54,7 +54,10 @@ def rename_board(cursor: RealDictCursor, old_board_title: str, new_board_title: 
     query = f"""
         UPDATE boards
         SET title = '{new_board_title}'
-        WHERE title = '{old_board_title}'
+        WHERE title = '{old_board_title}';
+        UPDATE status_link
+        SET board_name ='{new_board_title}'
+        WHERE board_name = '{old_board_title}'
         """
     cursor.execute(query)
 
