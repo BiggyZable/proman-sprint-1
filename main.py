@@ -98,7 +98,6 @@ def add_new_card():
 @json_response
 def show_cards():
     if request.method == "GET":
-        print(data_handler.get_cards())
         return data_handler.get_cards()
 
 
