@@ -59,7 +59,6 @@ export let dataHandler = {
         // the cards are retrieved and then the callback function is called with the cards
         this._api_get('/show-cards', (response) => {
             this._data['cards'] = response;
-            console.log(response);
             callback(response)
         })
     },
