@@ -2,6 +2,7 @@ import persistence
 import connection
 from psycopg2.extras import RealDictCursor
 
+
 def get_card_status(status_id):
     """
     Find the first status matching the given id
@@ -21,6 +22,7 @@ def get_boards(cursor: RealDictCursor) -> list:
         """
     cursor.execute(query)
     return cursor.fetchall()
+
 
 def get_cards_for_board(board_id):
     persistence.clear_cache()
@@ -52,7 +54,10 @@ def rename_board(cursor: RealDictCursor, old_board_title: str, new_board_title: 
     query = f"""
         UPDATE boards
         SET title = '{new_board_title}'
-        WHERE title = '{old_board_title}'
+        WHERE title = '{old_board_title}';
+        UPDATE status_link
+        SET board_name ='{new_board_title}'
+        WHERE board_name = '{old_board_title}'
         """
     cursor.execute(query)
 
@@ -76,6 +81,7 @@ def add_status(cursor: RealDictCursor, status_name: str) -> list:
         """
     cursor.execute(query)
 
+
 @connection.connection_handler
 def add_status_link(cursor: RealDictCursor, status_name: str, board_name: str) -> list:
     query = f"""
@@ -93,3 +99,20 @@ def rename_column(cursor: RealDictCursor, old_column_title: str, new_column_titl
             WHERE status_name = '{old_column_title}' AND board_name = '{board_title}'
             """
     cursor.execute(query)
+
+
+@connection.connection_handler
+def add_new_card(cursor: RealDictCursor, card_title: str, board_id: int, status_name: str) -> list:
+    query = f"""
+        INSERT INTO cards(board_id, title, status_id, "order", status_name)
+        VALUES ('{board_id}', '{card_title}', 1, 1, '{status_name}')
+            """
+    cursor.execute(query)
+
+@connection.connection_handler
+def get_cards(cursor: RealDictCursor) -> list:
+    query = f"""
+        SELECT * FROM cards
+    """
+    cursor.execute(query)
+    return cursor.fetchall()

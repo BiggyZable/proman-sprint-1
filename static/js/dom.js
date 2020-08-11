@@ -15,9 +15,10 @@ export let dom = {
         dom.loadStatuses()
     },
     loadStatuses: function () {
-        dataHandler.getStatuses( function (statuses) {
+        dataHandler.getStatuses(function (statuses) {
             dom.showColumns(statuses);
             dom.buttonHandlerColumns();
+            dom.loadCards()
         })
     },
     showColumns: function (statuses) {
@@ -25,11 +26,12 @@ export let dom = {
         for (let boardColumn of boardColumns) {
             let boardColumnHTML = ''
             let boardTitle = boardColumn.dataset.boardtitle;
+            let boardId = boardColumn.dataset.boardid;
             for (let status of statuses) {
                 if (status.board_name === boardTitle) {
                     boardColumnHTML += `<div class="board-column">
                                             <div class="board-column-title" data-boardtitle="${boardTitle}">${status.status_name}</div>
-                                            <div class="board-column-content"></div>
+                                            <div class="board-column-content" data-boardid="${boardId}" data-boardtitle="${boardTitle}" data-statustitle="${status.status_name}"></div>
                                         </div>`
                 }
             }
@@ -47,7 +49,11 @@ export let dom = {
                 <section class="board">
                     <div class="board-header"><span class="board-title">${board.title}</span>
                         <span class="board-specific hidden" data-boardtitle="${board.title}">
-                            <button class="card-add">Add Card</button>
+                            <button class="card-add" data-boardid="${board.id}" data-boardtitle="${board.title}">Add Card</button>
+                            <span class="card-add-form hidden" data-boardtitle="${board.title}">
+                                <input type="text" class="card-add-input" data-boardtitle="${board.title}" value="">
+                                <button class="card-save-btn" data-boardtitle="${board.title}">Save</button>
+                            </span>
                             <button class="column-add" data-boardtitle="${board.title}">Add Column</button>
                             <span class="column-add-form hidden" data-boardtitle="${board.title}">
                                 <input type="text" class="column-add-input" data-boardtitle="${board.title}" value="">
@@ -56,7 +62,7 @@ export let dom = {
                         </span>
                         <button class="board-toggle" data-boardtitle="${board.title}"><i class="fas fa-chevron-down"></i></button>
                     </div>
-                    <div class="board-columns hidden" data-boardtitle="${board.title}">
+                    <div class="board-columns hidden" data-boardtitle="${board.title}" data-boardid="${board.id}">
                         
                     </div>
                 </section>
@@ -72,12 +78,27 @@ export let dom = {
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.innerHTML = outerHtml;
     },
-    loadCards: function (boardId) {
+    loadCards: function () {
         // retrieves cards and makes showCards called
+        dataHandler.getCards(function (cards) {
+            dom.showCards(cards)
+        })
+
+
     },
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
+        for (let card of cards) {
+            let statusName = card.status_name
+            let boardId = card.board_id
+            let column = document.querySelector(`.board-column-content[data-boardid="${boardId}"][data-statustitle="${statusName}"]`)
+            let alreadyInCards = column.innerHTML
+            let cardsHTML = alreadyInCards
+            cardsHTML += `<div class="card">${card.title}</div>`
+            column.innerHTML = cardsHTML
+        }
+
     },
     buttonHandler: function () {
         let savenewBoardBtn = document.querySelector('#save-newboard-btn');
@@ -87,7 +108,6 @@ export let dom = {
             dataHandler.createNewBoard(boardTitle, function (response) {
                 dom.loadBoards();
                 dom.init()
-                console.log(response);
                 newBoardDiv.classList.add('hidden');
             })
         })
@@ -106,14 +126,13 @@ export let dom = {
                     renameBoardBtn.addEventListener('click', () => {
                         let new_board_title = document.querySelector(`[data-oldtitle='${old_board_title}']`).value;
                         dataHandler.renameBoard(old_board_title, new_board_title, function (response) {
-                            console.log(response);
                             dom.loadBoards();
                         })
                     })
                 }
-                document.addEventListener("click", function () {
-                    boardTitleItem.innerHTML = old_board_title
-                })
+                // document.addEventListener("click", function () {
+                //     boardTitleItem.innerHTML = old_board_title
+                // })
             })
         }
         let dropDownBtns = document.querySelectorAll('.board-toggle')
@@ -151,12 +170,35 @@ export let dom = {
             saveNewStatusBtn.addEventListener('click', function () {
                 let newStatusName = document.querySelector(`.column-add-input[data-boardtitle="${boardTitle}"]`).value
                 dataHandler.addStatus(newStatusName, boardTitle, function (response) {
-                    console.log(response);
                     dom.loadStatuses();
                 })
             })
         }
+        let addCardBtns = document.querySelectorAll('.card-add')
+        for (let button of addCardBtns) {
+            let boardTitle = button.dataset.boardtitle
+            let boardId = button.dataset.boardid
+            let cardInput = document.querySelector(`.card-add-form[data-boardtitle="${boardTitle}"]`)
+            button.addEventListener('click' , function(){
+                cardInput.classList.toggle('hidden')
+            })
+
+            cardInput.addEventListener('keyup', function(e) {
+
+                if(e.keyCode === 13) {
+                    cardInput.classList.toggle('hidden')
+                    let cardTitle = document.querySelector(`.card-add-input[data-boardtitle="${boardTitle}"]`).value
+                    let statusName = document.querySelector(`.board-column-content[data-boardtitle="${boardTitle}"]`).dataset.statustitle
+                    dataHandler.createNewCard(cardTitle, boardId, statusName, function(response){
+                    })
+                    dom.loadStatuses()
+                }
+            })
+
+        }
+
     },
+
     buttonHandlerColumns: function () {
         let columnTitles = document.querySelectorAll('.board-column-title')
         for (let columnTitle of columnTitles) {
@@ -169,18 +211,15 @@ export let dom = {
                     if (event.keyCode === 13) {
                         let newColumnTitle = inputField.value
                         dataHandler.renameColumn(oldColumnTitle, newColumnTitle, boardTitle, function (response) {
-                            console.log(response);
                             dom.loadStatuses();
                         })
-                    }
-                     else if (event.keyCode === 27) {
-                         console.log('nemjo');
-                         columnTitle.innerHTML = oldColumnTitle
+                    } else if (event.keyCode === 27) {
+                        columnTitle.innerHTML = oldColumnTitle
                     }
                 })
-                document.addEventListener("click", function () {
-                    columnTitle.innerHTML = oldColumnTitle
-                })
+                // document.addEventListener("click", function () {
+                //     columnTitle.innerHTML = oldColumnTitle
+                // })
             })
         }
     }

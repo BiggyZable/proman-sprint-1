@@ -55,8 +55,12 @@ export let dataHandler = {
     getStatus: function (statusId, callback) {
         // the status is retrieved and then the callback function is called with the status
     },
-    getCardsByBoardId: function (boardId, callback) {
+    getCards: function (callback) {
         // the cards are retrieved and then the callback function is called with the cards
+        this._api_get('/show-cards', (response) => {
+            this._data['cards'] = response;
+            callback(response)
+        })
     },
     getCard: function (cardId, callback) {
         // the card is retrieved and then the callback function is called with the card
@@ -67,8 +71,11 @@ export let dataHandler = {
             callback(response)
         })
     },
-    createNewCard: function (cardTitle, boardId, statusId, callback) {
-        // creates new card, saves it and calls the callback function with its data
+    createNewCard: function (cardTitle, boardId, statusName, callback) {
+        let cardDict = {card_title: cardTitle, board_id: boardId, status_name: statusName}
+        this._api_post('/add-card', cardDict, (response) => {
+            callback(response)
+        })
     },
     renameBoard: function (old_board_title, new_board_title, callback) {
         let titleDict = {
@@ -98,5 +105,6 @@ export let dataHandler = {
             callback(response)
         })
     }
+
     // here comes more features
 };
