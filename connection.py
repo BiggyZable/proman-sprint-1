@@ -1,27 +1,43 @@
-# Creates a decorator to handle the database connection/cursor opening/closing.
-# Creates the cursor with RealDictCursor, thus it returns real dictionaries, where the column names are the keys.
 import os
+
 import psycopg2
 import psycopg2.extras
 
+import os
+import psycopg2
+import urllib
+
+urllib.parse.uses_netloc.append('postgres')
+url = urllib.parse.urlparse(os.environ.get('DATABASE_URL'))
+# connection = psycopg2.connect(
+#     database=url.path[1:],
+#     user=url.username,
+#     password=url.password,
+#     host=url.hostname,
+#     port=url.port
+# )
+
+database = url.path[1:]
+user = url.username
+password = url.password
+host = url.hostname
+port = url.port
+
 
 def get_connection_string():
-    # setup connection string
-    # to do this, please define these environment variables first
-    user_name = os.environ.get('PSQL_USER_NAME')
-    password = os.environ.get('PSQL_PASSWORD')
-    host = os.environ.get('PSQL_HOST')
-    database_name = os.environ.get('PSQL_DB_NAME')
+    # user_name = os.environ.get('PSQL_USER_NAME')
+    # password = os.environ.get('PSQL_PASSWORD')
+    # host = os.environ.get('PSQL_HOST')
+    # database_name = os.environ.get('PSQL_DB_NAME')
 
-    env_variables_defined = user_name and password and host and database_name
+    env_variables_defined = user and password and host and database
 
     if env_variables_defined:
-        # this string describes all info for psycopg2 to connect to the database
         return 'postgresql://{user_name}:{password}@{host}/{database_name}'.format(
-            user_name=user_name,
+            user_name=user,
             password=password,
             host=host,
-            database_name=database_name
+            database_name=database
         )
     else:
         raise KeyError('Some necessary environment variable(s) are not defined')
@@ -41,7 +57,6 @@ def open_database():
 def connection_handler(function):
     def wrapper(*args, **kwargs):
         connection = open_database()
-        # we set the cursor_factory parameter to return with a RealDictCursor cursor (cursor which provide dictionaries)
         dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         ret_value = function(dict_cur, *args, **kwargs)
         dict_cur.close()
