@@ -142,7 +142,7 @@ export let dom = {
         }
         let dropDownBtns = document.querySelectorAll('.board-toggle')
         for (let dropDownBtn of dropDownBtns) {
-            dropDownBtn.addEventListener('click', function () {
+            dropDownBtn.addEventListener('click',() => {
                 let boardTitle = dropDownBtn.dataset.boardtitle;
                 let boardColumn = document.querySelector(`div.board-columns[data-boardtitle="${boardTitle}"]`);
                 boardColumn.classList.toggle('hidden');
