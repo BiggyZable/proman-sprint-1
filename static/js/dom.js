@@ -81,7 +81,6 @@ export let dom = {
     loadCards: function () {
         // retrieves cards and makes showCards called
         dataHandler.getCards(function (cards) {
-            console.log('kaki', cards)
             dom.showCards(cards)
         })
 
@@ -93,9 +92,7 @@ export let dom = {
         for (let card of cards) {
             let statusName = card.status_name
             let boardId = card.board_id
-            console.log(statusName, boardId)
             let column = document.querySelector(`.board-column-content[data-boardid="${boardId}"][data-statustitle="${statusName}"]`)
-            console.log(column)
             let alreadyInCards = column.innerHTML
             let cardsHTML = alreadyInCards
             cardsHTML += `<div class="card">${card.title}</div>`
@@ -111,7 +108,6 @@ export let dom = {
             dataHandler.createNewBoard(boardTitle, function (response) {
                 dom.loadBoards();
                 dom.init()
-                console.log(response);
                 newBoardDiv.classList.add('hidden');
             })
         })
@@ -130,7 +126,6 @@ export let dom = {
                     renameBoardBtn.addEventListener('click', () => {
                         let new_board_title = document.querySelector(`[data-oldtitle='${old_board_title}']`).value;
                         dataHandler.renameBoard(old_board_title, new_board_title, function (response) {
-                            console.log(response);
                             dom.loadBoards();
                         })
                     })
@@ -175,7 +170,6 @@ export let dom = {
             saveNewStatusBtn.addEventListener('click', function () {
                 let newStatusName = document.querySelector(`.column-add-input[data-boardtitle="${boardTitle}"]`).value
                 dataHandler.addStatus(newStatusName, boardTitle, function (response) {
-                    console.log(response);
                     dom.loadStatuses();
                 })
             })
@@ -195,9 +189,7 @@ export let dom = {
                     cardInput.classList.toggle('hidden')
                     let cardTitle = document.querySelector(`.card-add-input[data-boardtitle="${boardTitle}"]`).value
                     let statusName = document.querySelector(`.board-column-content[data-boardtitle="${boardTitle}"]`).dataset.statustitle
-                    console.log(statusName);
                     dataHandler.createNewCard(cardTitle, boardId, statusName, function(response){
-                        console.log(response);
                     })
                     dom.loadStatuses()
                 }
@@ -219,7 +211,6 @@ export let dom = {
                     if (event.keyCode === 13) {
                         let newColumnTitle = inputField.value
                         dataHandler.renameColumn(oldColumnTitle, newColumnTitle, boardTitle, function (response) {
-                            console.log(response);
                             dom.loadStatuses();
                         })
                     } else if (event.keyCode === 27) {
